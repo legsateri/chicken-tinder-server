@@ -2,6 +2,8 @@
 const xss = require("xss")
 ////////////////////////////////////////////////////////////////////////////////
 
+// FIXME: Add ability to exclusively display groups based on user. 
+
 const GroupsService = {
     getAllGroups(knex) {
         return knex
@@ -22,7 +24,6 @@ const GroupsService = {
             group_id: group.group_id,
             member_one: group.member_one,
             member_two: group.member_two,
-            member_three: group.member_three,
             past_match_1: group.past_match_1,
             past_match_2: group.past_match_2,
             past_match_3: group.past_match_3,

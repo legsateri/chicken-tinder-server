@@ -9,6 +9,8 @@ const groupsRouter = express.Router();
 const jsonParser = express.json();
 ////////////////////////////////////////////////////////////////////////////////
 
+// FIXME: Add ability to exclusively display groups based on user. 
+
 groupsRouter
     .route("/")
 
@@ -22,8 +24,8 @@ groupsRouter
     })
 
     .post(requireAuth, jsonParser, (req, res, next) => {
-        const { member_two, member_three } = req.body;
-        const newGroup = { member_two, member_three };
+        const { member_two } = req.body;
+        const newGroup = { member_two };
 
         for (const [key, value] of Object.entries(newGroup))
             if (value == null)
