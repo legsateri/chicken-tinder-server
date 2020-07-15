@@ -49,6 +49,26 @@ groupsRouter
     });
 
 groupsRouter
+    .route("/user")
+
+    .all(requireAuth)
+
+    .get((req, res, next) => {
+        const member_one = req.user.user_id
+        const_member_two = req.user.user_id
+
+        GroupsService.getGroupsByUser(
+            req.app.get("db"),
+            member_one,
+            member_two
+        )
+            .then(groups => {
+                res.json(groups.map(GroupsService.serializeGroupWithUser))
+            })
+            .catch(next)
+    })
+
+groupsRouter
     .route("/:group_id")
 
     .all(requireAuth)
