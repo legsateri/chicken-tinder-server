@@ -54,45 +54,6 @@ const GroupsService = {
             .where({ group_id })
             .update(updatedGroup);
     },
-
-    getGroupsByUser(db, email, member_one, member_two) {
-        return db
-            .from("groups AS group")
-            .select(
-                "group.group_id",
-                "group.member_one",
-                "group.member_two",
-                db.raw(
-                    `row_to_json(
-                        (SELECT tmp FROM (
-                            SELECT
-                                user.user_id,
-                                user.first_name,
-                                user.last_name,
-                                user.email,
-                                user.date_modified
-                        ) tmp)
-                    ) AS "user"`
-                )
-            )
-            .leftJoin(
-                "users AS user",
-                "group.member_one",
-                "group.member_two",
-                "user.first_name",
-                "user.last_name"
-            )
-            .where("group.group_id", group_id)
-            .first();
-    },
-
-    serializeGroupWithUser(group) {
-        return {
-            group_id: group.group_id,
-            member_one: group.member_one,
-            member_two: group.member_two d
-        };
-    },
 };
 
 module.exports = GroupsService;
