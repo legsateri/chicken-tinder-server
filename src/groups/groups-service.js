@@ -83,18 +83,16 @@ const GroupsService = {
                 "user.last_name"
             )
             .where("group.group_id", group_id)
-            .first()
+            .first();
     },
 
     serializeGroupWithUser(group) {
         return {
             group_id: group.group_id,
             member_one: group.member_one,
-            member_two: group.member_two,
-            first_name: group.first_name,
-            last_name: group.last_name
-        }
-    }
+            member_two: group.member_two d
+        };
+    },
 };
 
 module.exports = GroupsService;
