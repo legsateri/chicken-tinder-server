@@ -31,7 +31,7 @@ groupsRouter
                     error: { message: `Missing ${key} in request.` }
                 });
 
-        newGroup.member_one = req.user.email
+        newGroup.member_one = req.user.email;
 
         GroupsService.insertGroups(
             req.app.get("db"),
@@ -47,22 +47,20 @@ groupsRouter
     });
 
 groupsRouter
-    .route("/user-one")
+    .route("/user/one")
 
     .all(requireAuth)
 
     .get((req, res, next) => {
-        const email = req.user.email
+        const knexInstance = req.app.get("db");
+        const member_one = req.user.email;
 
-        GroupsService.getGroupsByMemberOne(
-            req.app.get('db'),
-            email
-        )
-            .then(comments => {
-                res.json(comments.map(GroupsService.serializeGroupWithUser))
+        GroupsService.getGroupsByMemberOne(knexInstance, member_one)
+            .then(groups => {
+                res.json(groups);
             })
             .catch(next);
-    });
+    })
 
 groupsRouter
     .route("/user/two")
@@ -70,17 +68,15 @@ groupsRouter
     .all(requireAuth)
 
     .get((req, res, next) => {
-        const email = req.user.email
+        const knexInstance = req.app.get("db");
+        const member_two = req.user.email;
 
-        GroupsService.getGroupsByMemberTwo(
-            req.app.get('db'),
-            email
-        )
-            .then(comments => {
-                res.json(comments.map(GroupsService.serializeGroupWithUser))
+        GroupsService.getGroupsByMemberTwo(knexInstance, member_two)
+            .then(groups => {
+                res.json(groups);
             })
             .catch(next);
-    });
+    })
 
 groupsRouter
     .route("/:group_id")

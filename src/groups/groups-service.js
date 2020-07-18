@@ -53,60 +53,17 @@ const GroupsService = {
             .update(updatedGroup);
     },
 
-    getGroupsByMemberOne(db, group_id, member_one) {
-        return db
-            .from("groups AS group")
-            .select(
-                "group.group_id",
-                "group.member_one",
-                "group.member_two",
-                "user.email",
-                "user.first_name",
-                "user.last_name"
-            )
-            .where("group.member_one", member_one)
-            .leftJoin(
-                "users AS user",
-                "group.member_one",
-                "group.member_two",
-                "user.email",
-                "user.first_name",
-                "user.last_name"
-            )
+    getGroupsByMemberOne(knex, member_one) {
+        return knex("groups")
+            .select("*")
+            .where("member_one", member_one)
     },
 
-    getGroupsByMemberTwo(db, group_id, member_two) {
-        return db
-            .from("groups AS group")
-            .select(
-                "group.group_id",
-                "group.member_one",
-                "group.member_two",
-                "user.email",
-                "user.first_name",
-                "user.last_name"
-            )
-            .where("group.member_two", member_two)
-            .leftJoin(
-                "users AS user",
-                "group.member_one",
-                "group.member_two",
-                "user.email",
-                "user.first_name",
-                "user.last_name"
-            )
+    getGroupsByMemberTwo(knex, member_two) {
+        return knex("groups")
+            .select("*")
+            .where("member_two", member_two)
     },
-
-    serializeGroupWithUser(group) {
-        return {
-            group_id: group.group_id,
-            member_one: group.member_one,
-            member_two: group.member_two,
-            email: group.email,
-            first_name: group.first_name,
-            last_name: group.last_name
-        }
-    }
 };
 
 module.exports = GroupsService;
