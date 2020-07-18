@@ -9,8 +9,6 @@ const groupsRouter = express.Router();
 const jsonParser = express.json();
 ////////////////////////////////////////////////////////////////////////////////
 
-// FIXME: Add ability to exclusively display groups based on user. 
-
 groupsRouter
     .route("/")
 
@@ -44,6 +42,42 @@ groupsRouter
                     .status(201)
                     .location(path.posix.join(req.originalUrl, `/${group.group_id}`))
                     .json(GroupsService.serializeGroup(group));
+            })
+            .catch(next);
+    });
+
+groupsRouter
+    .route("/user-one")
+
+    .all(requireAuth)
+
+    .get((req, res, next) => {
+        const email = req.user.email
+
+        GroupsService.getGroupsByMemberOne(
+            req.app.get('db'),
+            email
+        )
+            .then(comments => {
+                res.json(comments.map(GroupsService.serializeGroupWithUser))
+            })
+            .catch(next);
+    });
+
+groupsRouter
+    .route("/user/two")
+
+    .all(requireAuth)
+
+    .get((req, res, next) => {
+        const email = req.user.email
+
+        GroupsService.getGroupsByMemberTwo(
+            req.app.get('db'),
+            email
+        )
+            .then(comments => {
+                res.json(comments.map(GroupsService.serializeGroupWithUser))
             })
             .catch(next);
     });
