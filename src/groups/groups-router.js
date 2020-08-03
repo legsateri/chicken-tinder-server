@@ -60,7 +60,7 @@ groupsRouter
                 res.json(groups);
             })
             .catch(next);
-    })
+    });
 
 groupsRouter
     .route("/user/two")
@@ -76,7 +76,7 @@ groupsRouter
                 res.json(groups);
             })
             .catch(next);
-    })
+    });
 
 groupsRouter
     .route("/:group_id")

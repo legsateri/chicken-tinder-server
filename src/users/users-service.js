@@ -51,6 +51,18 @@ const UsersService = {
             date_created: new Date(user.date_created)
         };
     },
+
+    getById(knex, user_id) {
+        return knex("users")
+            .where("user_id", user_id)
+            .first();
+    },
+
+    updateUser(knex, user_id, updatedUser) {
+        return knex("users")
+            .where({ user_id })
+            .update(updatedUser);
+    },
 };
 
 module.exports = UsersService;
