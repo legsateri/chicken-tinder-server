@@ -100,6 +100,8 @@ usersRouter
             yum_41, yum_42, yum_43, yum_44, yum_45, yum_46, yum_47, yum_48, yum_49, yum_50,
         };
 
+        updatedUser.user_id = req.user.user_id;
+
         UsersService.updateUser(
             req.app.get("db"),
             req.params.user_id,
