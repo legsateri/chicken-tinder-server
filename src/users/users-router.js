@@ -10,7 +10,18 @@ const jsonParser = express.json();
 ////////////////////////////////////////////////////////////////////////////////
 
 usersRouter
-    .post("/", jsonParser, (req, res, next) => {
+    .route("/")
+
+    .get((req, res, next) => {
+        const knexInstance = req.app.get("db");
+        UsersService.getAllUsers(knexInstance)
+            .then(users => {
+                res.json(users);
+            })
+            .catch(next);
+    })
+
+    .post(jsonParser, (req, res, next) => {
         const { password, email, first_name, last_name } = req.body;
 
         for (const field of ["first_name", "last_name", "email", "password"])
@@ -84,7 +95,7 @@ usersRouter
     })
 
     .patch(jsonParser, (req, res, next) => {
-        const { 
+        const {
             yum_1, yum_2, yum_3, yum_4, yum_5, yum_6, yum_7, yum_8, yum_9, yum_10,
             yum_11, yum_12, yum_13, yum_14, yum_15, yum_16, yum_17, yum_18, yum_19, yum_20,
             yum_21, yum_22, yum_23, yum_24, yum_25, yum_26, yum_27, yum_28, yum_29, yum_30,
@@ -92,7 +103,7 @@ usersRouter
             yum_41, yum_42, yum_43, yum_44, yum_45, yum_46, yum_47, yum_48, yum_49, yum_50,
         } = req.body;
 
-        updatedUser = { 
+        updatedUser = {
             yum_1, yum_2, yum_3, yum_4, yum_5, yum_6, yum_7, yum_8, yum_9, yum_10,
             yum_11, yum_12, yum_13, yum_14, yum_15, yum_16, yum_17, yum_18, yum_19, yum_20,
             yum_21, yum_22, yum_23, yum_24, yum_25, yum_26, yum_27, yum_28, yum_29, yum_30,
